@@ -109,9 +109,9 @@ const AboutSection = () => {
         <h2 className="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
 
         <div className="max-w-3xl mx-auto space-y-4">
-          <p><b>• Tevadas T</b> – Founder & CEO</p>
-          <p><b>• Romeo</b> – Healthcare Specialist</p>
-          <p><b>• Jaya Prakash</b> – Narcotics Policy Advisor</p>
+          <p><b>• Olubunmi Ajasa</b> – Founder & CEO</p>
+          <p><b>• Daisy</b> – Healthcare Specialist</p>
+          <p><b>• Daisy Dona</b> – Narcotics Policy Advisor</p>
 
           <p className="italic mt-4">
             Our professionals are supported by advisors and consultants bringing diverse expertise.

@@ -18,15 +18,15 @@ const Contact = () => {
                 <ul className="space-y-4 text-muted-foreground">
                   <li className="flex items-start gap-3">
                     <MapPin size={20} className="mt-0.5 flex-shrink-0 text-orange" />
-                    <span>Singapore</span>
+                    <span>Lagos, Nigeria</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Phone size={20} className="flex-shrink-0 text-orange" />
-                    <span>+65 1234 5678</span>
+                    <span>+234 5PGENOMICS</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Mail size={20} className="flex-shrink-0 text-orange" />
-                    <span>info@germonizer.com</span>
+                    <span>info@5pgenomics.com</span>
                   </li>
                 </ul>
               </div>

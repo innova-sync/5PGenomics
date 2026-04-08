@@ -52,7 +52,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="Genomics Logo" className="h-10 w-auto" />
           <span className="hidden sm:block font-bold text-lg text-navy">
-            Genomics
+           5P Genomics
           </span>
         </Link>
 

@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h3 className="text-xl font-bold mb-4">
-              Gen<span className="text-orange">o</span>mics
+              5P Gen<span className="text-orange">o</span>mics
             </h3>
             <p className="text-sm opacity-80 leading-relaxed">
               Global distributor of healthcare, drug testing, CBRNE detection and forensic investigation kits.
@@ -41,22 +41,22 @@ const Footer = () => {
             <ul className="space-y-3 text-sm opacity-80">
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="mt-0.5 flex-shrink-0 text-orange" />
-                <span>Singapore</span>
+                <span>Nigeria</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} className="flex-shrink-0 text-orange" />
-                <span>+65 1234 5678</span>
+                <span>+234 5P GENOMICS</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="flex-shrink-0 text-orange" />
-                <span>info@Genomics.com</span>
+                <span>info@5pgenomics.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-xs opacity-60">
-          © {new Date().getFullYear()} Genomics Pte Ltd. All rights reserved.
+          © {new Date().getFullYear()} 5P Genomics Pte Ltd. All rights reserved.
         </div>
       </div>
     </footer>
