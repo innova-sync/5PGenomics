@@ -7,10 +7,10 @@ import about2 from "@/assets/about-2.jpg";
 import about3 from "@/assets/about-3.jpg";
 
 const services = [
-  { icon: Shield, title: "Drug & Alcohol Management" },
-  { icon: Radiation, title: "CBRNe" },
-  { icon: Search, title: "Forensic Investigation Management" },
-  { icon: Hospital, title: "Healthcare Consumer Products" },
+  { icon: Shield, title: "Drug & Alcohol Management", path: "/products/alcohol-management" },
+  { icon: Radiation, title: "CBRNe", path: "/products/cbrne" },
+  { icon: Search, title: "Forensic Investigation Management", path: "/products/forensic" },
+  { icon: Hospital, title: "Healthcare Consumer Products", path: "/products/healthcare" },
 ];
 
 const HeroSection = () => {
@@ -47,23 +47,25 @@ const HeroSection = () => {
         </div>
 
         {/* Service Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto mt-10">
-          {services.map((svc, i) => (
-            <div
-              key={i}
-              className="bg-card rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 md:p-8 flex flex-col items-center text-center group cursor-pointer border border-border"
-            >
+       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto mt-10">
+        {services.map((svc, i) => (
+          <Link key={i} to={svc.path}>
+            <div className="bg-card rounded-lg shadow-md hover:shadow-xl transition-all p-6 md:p-8 flex flex-col items-center text-center group cursor-pointer border border-border hover:-translate-y-1">
+              
               <svc.icon
                 size={48}
                 className="text-orange mb-4 group-hover:scale-110 transition-transform"
                 strokeWidth={1.5}
               />
+
               <h3 className="text-sm md:text-base font-semibold text-navy">
                 {svc.title}
               </h3>
+
             </div>
-          ))}
-        </div>
+          </Link>
+        ))}
+      </div>
 
         {/* About Section */}
         <div className="container mx-auto px-4 mt-11">

@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Radiation } from "lucide-react";
 import { useState } from "react";
 
 const categories = [
@@ -17,90 +16,90 @@ const products = [
   {
     title: "Three Way Paper Chemical Agent Liquid Detector",
     category: ["cat1"],
-    img: "/images/thumbnail/Three Way Paper.jpg",
-    link: "/three-way-chemical-agent-liquid-detector.html",
+    img: "/cbrne/three-way-paper.jpg",
+    link: "#",
     desc: "Detects G, V, or H agents using color changes.",
   },
   {
     title: "Advanced Chemical Warfare Agent Detector",
     category: ["cat1"],
-    img: "/images/thumbnail/Advanced Chemical Warfare Agent.jpg",
-    link: "/acwa-chemical-warfare-oem-sensor-module-detector.html",
+    img: "/cbrne/advanced-chemical-warfare-agent.jpg",
+    link: "#",
     desc: "Rapid detection of chemical vapors.",
   },
   {
     title: "CW Sentry Chemical Warfare Agent Detector",
     category: ["cat1"],
-    img: "/images/thumbnail/cw sentry chemical warfare agent detector.jpg",
-    link: "/cw-sentry-chemical-warfare-agent-detector.html",
+    img: "/cbrne/cw-sentry.jpg",
+    link: "#",
     desc: "Time-phased analysis of chemical vapors.",
   },
   {
     title: "Biological Identification System",
     category: ["cat2"],
-    img: "/images/thumbnail/next generation biological identification system.jpg",
-    link: "/next-generation-biological-identification-system.html",
+    img: "/cbrne/biological-identification.jpg",
+    link: "#",
     desc: "Detects evolving biological threats.",
   },
   {
     title: "Biological Sampling Kit",
     category: ["cat2"],
-    img: "/images/thumbnail/biskit-biological sampling kit.jpg",
-    link: "/biskit-biological-sampling-kit.html",
+    img: "/cbrne/biskit-kit.jpg",
+    link: "#",
     desc: "Ensures contamination-free sampling.",
   },
   {
     title: "Radiological Detection System",
     category: ["cat3"],
-    img: "/images/thumbnail/d-tect’s radiological detection system.jpg",
-    link: "/radiation-monitoring-dtect-device.html",
+    img: "/cbrne/radiological-detection.jpg",
+    link: "#",
     desc: "Flexible radiological monitoring solution.",
   },
   {
     title: "Gamma Ray Spectrometer",
     category: ["cat3"],
-    img: "/images/thumbnail/germanium gamma ray imaging hpge spectrometer.jpg",
-    link: "/germanium-gamma-hpge-spectrometer.html",
+    img: "/cbrne/gamma-spectrometer.jpg",
+    link: "#",
     desc: "High precision radiation analysis.",
   },
   {
     title: "Explosive Detection Kit",
     category: ["cat4"],
-    img: "/images/thumbnail/general screening explosive.jpg",
-    link: "/general-screening-explosive-detection-identification.html",
+    img: "/cbrne/explosive-kit.jpg",
+    link: "#",
     desc: "Reliable explosive identification system.",
   },
   {
     title: "CBR Multi Purpose Wipes",
     category: ["cat5"],
-    img: "/images/thumbnail/CBR Multi-Purpose Wipes.jpg",
-    link: "/cbr-decontamination-wipes.html",
+    img: "/cbrne/cbr-wipes.jpg",
+    link: "#",
     desc: "Surface decontamination solution.",
   },
   {
     title: "Decon PLUS M333",
     category: ["cat5"],
-    img: "/images/thumbnail/Decon PLUS.jpg",
-    link: "/decon-plus-m333-general-purpose-decontaminant.html",
+    img: "/cbrne/decon-plus.jpg",
+    link: "#",
     desc: "General-purpose decontamination.",
   },
   {
     title: "Escape Hood CBRN",
     category: ["cat6"],
-    img: "/images/thumbnail/Escape Hood CBRN.jpg",
-    link: "/escape-hood-cbrn.html",
+    img: "/cbrne/escape-hood.jpg",
+    link: "#",
     desc: "Respiratory protection in hazardous environments.",
   },
   {
     title: "Sentinel XL CBRN",
     category: ["cat6"],
-    img: "/images/thumbnail/Sentinel XL CBRN.jpg",
-    link: "/sentinel-xl-cbrn.html",
+    img: "/cbrne/sentinel-xl.jpg",
+    link: "#",
     desc: "Advanced chemical and biological protection.",
   },
 ];
 
-const CBRNS = () => {
+const CBRNE = () => {
   const [filter, setFilter] = useState("all");
 
   const filteredProducts =
@@ -128,13 +127,12 @@ const CBRNS = () => {
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
 
-            {/* HEADER */}
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-navy">Products</h2>
               <div className="w-20 h-1 bg-orange mx-auto mt-4"></div>
             </div>
 
-            {/* FILTER BUTTONS */}
+            {/* FILTER */}
             <div className="flex flex-wrap justify-center gap-3 mb-10">
               {categories.map((cat) => (
                 <button
@@ -151,29 +149,27 @@ const CBRNS = () => {
               ))}
             </div>
 
-            {/* PRODUCT GRID */}
+            {/* GRID */}
             <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
               {filteredProducts.map((item, index) => (
-                <a key={index} href={item.link}>
-                  <div className="shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300 h-full">
-                    
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="w-full h-48 object-cover"
-                    />
+                <div key={index} className="shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
 
-                    <div className="p-4">
-                      <h3 className="text-sm font-semibold text-navy">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        {item.desc}
-                      </p>
-                    </div>
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-48 object-cover"
+                  />
 
+                  <div className="p-4">
+                    <h3 className="text-sm font-semibold text-navy">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {item.desc}
+                    </p>
                   </div>
-                </a>
+
+                </div>
               ))}
             </div>
 
@@ -186,4 +182,4 @@ const CBRNS = () => {
   );
 };
 
-export default CBRNS;
+export default CBRNE;

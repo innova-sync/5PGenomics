@@ -11,7 +11,7 @@ const productLinks = [
   },
   {
     label: "CBRNEs",
-    path: "/products/cbrns",
+    path: "/products/cbrne",
     desc: "Chemical, Biological, Radiological & Nuclear solutions",
   },
   {
