@@ -13,8 +13,7 @@ const products = [
     title: "Forensic Fingerprint Imaging System – ForensiScan",
     category: ["cat1"],
     img: "/forensic/forensic-fingerprint-imaging.jpg",
-    link: "#",
-    desc: "Automated photography and enhancement of fingerprints on curved and reflective surfaces.",
+    desc: "Automated photography and enhancement of fingerprints on curved surfaces.",
   },
   {
     title: "DNA Sample Collection Kits for Forensic Investigation",

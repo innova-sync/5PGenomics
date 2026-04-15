@@ -12,7 +12,7 @@ import Contact from "./pages/Contact.tsx";
 // Product pages
 import AlcoholManagement from "./pages/products/AlcoholManagement.tsx";
 import CBRNe from "./pages/products/CBRNe.tsx";
-import Forest from "./pages/products/Forest.tsx";
+import Forensic from "./pages/products/Forensic.tsx";
 import Healthcare from "./pages/products/Healthcare.tsx";
 
 import NotFound from "./pages/NotFound.tsx";
@@ -35,7 +35,7 @@ const App = () => (
           {/* Product pages */}
           <Route path="/products/alcohol-management" element={<AlcoholManagement />} />
           <Route path="/products/cbrne" element={<CBRNe />} />
-          <Route path="/products/forest" element={<Forest />} />
+          <Route path="/products/forensic" element={<Forensic />} />
           <Route path="/products/healthcare" element={<Healthcare />} />
 
           {/* Catch-all */}
