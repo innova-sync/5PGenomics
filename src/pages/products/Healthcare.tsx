@@ -1,37 +1,113 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Hospital } from "lucide-react";
+import { useState } from "react";
 
-const Healthcare = () => {
+const categories = [
+  { label: "All Product", value: "all" },
+  { label: "Forensic", value: "cat1" },
+  { label: "Investigation", value: "cat2" },
+];
+
+const products = [
+  {
+    title: "Forensic Fingerprint Imaging System – ForensiScan",
+    category: ["cat1"],
+    img: "/forensic/forensic-fingerprint-imaging.jpg",
+    desc: "Automated fingerprint enhancement on curved surfaces.",
+  },
+  {
+    title: "DNA Sample Collection Kit",
+    category: ["cat1"],
+    img: "/forensic/dna-sample-collection.jpg",
+    desc: "Collect DNA samples from crime scenes.",
+  },
+];
+
+const healthcareFeatures = [
+  {
+    title: "Molecular Diagnostic (Lyophilized PCR kits)",
+    img: "/icons/icon-06.png",
+    link: "#",
+  },
+  {
+    title: "NIPT Kits and Service",
+    img: "/icons/icon-05.png",
+    link: "#",
+  },
+  {
+    title: "NGS",
+    img: "/icons/ngs.png",
+    link: "#",
+  },
+  {
+    title: "Consumer Products",
+    img: "/icons/icon-04.png",
+    link: "#",
+  },
+];
+
+const ForensicProducts = () => {
+  const [filter, setFilter] = useState("all");
+
+  const filteredProducts =
+    filter === "all"
+      ? products
+      : products.filter((p) => p.category.includes(filter));
+
   return (
     <div className="min-h-screen">
       <Navbar />
+
       <div className="pt-20">
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center gap-4 mb-8">
-              <Hospital size={40} className="text-orange" strokeWidth={1.5} />
-              <h1 className="text-3xl md:text-4xl font-bold text-navy">Healthcare Consumer Products</h1>
-            </div>
-            <p className="text-muted-foreground leading-relaxed max-w-3xl mb-8">
-              We offer a wide range of healthcare consumer products designed for both professional medical use and personal health monitoring, ensuring quality and reliability.
-            </p>
-            <div className="grid md:grid-cols-3 gap-6">
-              {["Rapid Test Kits", "Personal Health Monitors", "Medical Consumables"].map((product) => (
-                <div key={product} className="bg-card rounded-lg shadow-md p-6 border border-border">
-                  <h3 className="text-lg font-semibold text-navy mb-2">{product}</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Trusted healthcare products for everyday wellness needs.
-                  </p>
-                </div>
-              ))}
-            </div>
+
+        {/* HERO */}
+        <section className="bg-[url('/images/bg.jpg')] bg-cover bg-center py-20 text-white relative">
+          <div className="absolute inset-0 bg-black/60"></div>
+
+          <div className="relative container mx-auto px-4 text-center">
+            <span className="uppercase tracking-widest">Products</span>
+            <h1 className="text-2xl md:text-4xl font-bold mt-4">
+              Healthcare Product Solutions for Clinical & Diagnostic Excellence
+            </h1>
           </div>
         </section>
+
+        {/* FEATURE CARDS (converted properly) */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+
+            <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
+              {healthcareFeatures.map((item, index) => (
+                <a key={index} href={item.link}>
+                  <div className="p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center cursor-pointer">
+                    
+                    <div className="flex justify-center mb-4">
+                      <img
+                        src={item.img}
+                        alt={item.title}
+                        className="h-16"
+                      />
+                    </div>
+
+                    <h3 className="text-sm font-semibold">
+                      {item.title}
+                    </h3>
+
+                  </div>
+                </a>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+    
+
       </div>
+
       <Footer />
     </div>
   );
 };
 
-export default Healthcare;
+export default ForensicProducts;
