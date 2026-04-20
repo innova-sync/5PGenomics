@@ -1,11 +1,11 @@
 import banner from "@/assets/banner.jpg";
 
-const stats = [
-  { value: "500+", label: "Research Projects" },
-  { value: "20+", label: "Countries Served" },
-  { value: "50+", label: "Expert Scientists" },
-  { value: "99%", label: "Accuracy Rate" },
-];
+// const stats = [
+//   { value: "500+", label: "Research Projects" },
+//   { value: "20+", label: "Countries Served" },
+//   { value: "50+", label: "Expert Scientists" },
+//   { value: "99%", label: "Accuracy Rate" },
+// ];
 
 const whatWeDo = [
   {
@@ -70,7 +70,7 @@ const AboutSection = () => {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-navy py-10">
+      {/* <section className="bg-navy py-10">
         <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {stats.map((s) => (
             <div key={s.label}>
@@ -79,7 +79,7 @@ const AboutSection = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Who We Are */}
       <section className="py-20 container mx-auto px-4 text-center">
@@ -109,7 +109,7 @@ const AboutSection = () => {
             Get in touch with our team to explore how 5P Genomics can support your research or clinical goals.
           </p>
           <a
-            href="/contact"
+            href="/services"
             className="inline-block bg-orange text-white font-semibold px-8 py-3 rounded-full hover:opacity-90 transition"
           >
             Contact Us

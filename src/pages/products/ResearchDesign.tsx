@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import banner from "@/assets/banner.jpg";
 
 // ── Swap this for your real backend endpoint later ──────────────
-const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
+const COMPANY_EMAIL = "vikkymediatechnologies@gmail.com";
 
 const categories = [
   { name: "All Product", value: "all" },
@@ -196,12 +196,35 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = () => {
+const handleSubmit = () => {
     if (!validate()) return;
     setSending(true);
-    // ── Hardcoded for now; replace with real API call / EmailJS / backend later ──
-    // Example: fetch('/api/quote', { method: 'POST', body: JSON.stringify({ form, cart, to: COMPANY_EMAIL }) })
-    console.log("Quote request to:", COMPANY_EMAIL, { form, cart });
+
+    // Build the email body
+    const productList = cart
+      .map((item) => `• ${item.title} — Qty: ${item.qty}`)
+      .join("%0A");
+
+    const subject = encodeURIComponent("Quote Request from " + form.fullName);
+    const body = encodeURIComponent(
+      `QUOTE REQUEST\n` +
+      `══════════════════════════\n\n` +
+      `PRODUCTS REQUESTED:\n` +
+      cart.map((item) => `• ${item.title} — Qty: ${item.qty}`).join("\n") +
+      `\n\n` +
+      `CUSTOMER DETAILS:\n` +
+      `Full Name:     ${form.fullName}\n` +
+      `Organisation:  ${form.organisation || "N/A"}\n` +
+      `Email:         ${form.email}\n` +
+      `Phone:         ${form.phone}\n` +
+      `Address:       ${form.address}\n` +
+      `City:          ${form.city}\n` +
+      `Country:       ${form.country}\n`
+    );
+
+    // Open the user's default email client
+    window.location.href = `mailto:${COMPANY_EMAIL}?subject=${subject}&body=${body}`;
+
     setTimeout(() => {
       setSending(false);
       onSuccess();
