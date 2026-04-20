@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import NewsSection from "@/components/NewsSection";
 import Footer from "@/components/Footer";
 
-const Blog = () => {
+const Solution = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -14,4 +14,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Solution;

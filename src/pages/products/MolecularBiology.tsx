@@ -519,7 +519,7 @@ const SuccessModal = ({ onClose }) => (
 );
 
 /* ── Main Page ───────────────────────────────────────────────── */
-const CBRNE = () => {
+const MolecularBiology = () => {
   const [filter, setFilter] = useState("all");
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -707,4 +707,4 @@ const CBRNE = () => {
   );
 };
 
-export default CBRNE;
+export default MolecularBiology;

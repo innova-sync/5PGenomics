@@ -12,7 +12,7 @@ const Footer = () => {
               5P Gen<span className="text-orange">o</span>mics
             </h3>
             <p className="text-sm opacity-80 leading-relaxed">
-              Global distributor of healthcare, drug testing, CBRNE detection and forensic investigation kits.
+              genomics primed, defining its future
             </p>
           </div>
 
@@ -21,10 +21,10 @@ const Footer = () => {
             <h4 className="text-sm font-semibold mb-4 uppercase tracking-wider">Quick Links</h4>
             <ul className="space-y-2 text-sm opacity-80">
               {[
-                { label: "Home", path: "/" },
-                { label: "About", path: "/about" },
-                { label: "Blog", path: "/blog" },
-                { label: "Contact", path: "/contact" },
+                { label: "Applications", path: "/" },
+                { label: "Solutions", path: "/solution" },
+                { label: "Services", path: "/services" },
+                 { label: "About 5P Genomics", path: "/about" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link to={link.path} className="hover:text-orange transition-colors">
@@ -56,7 +56,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-xs opacity-60">
-          © {new Date().getFullYear()} 5P Genomics Pte Ltd. All rights reserved.
+          © {new Date().getFullYear()} 5P Genomics Ltd. All rights reserved.
         </div>
       </div>
     </footer>

@@ -1,145 +1,120 @@
-
 import banner from "@/assets/banner.jpg";
+
+const stats = [
+  { value: "500+", label: "Research Projects" },
+  { value: "20+", label: "Countries Served" },
+  { value: "50+", label: "Expert Scientists" },
+  { value: "99%", label: "Accuracy Rate" },
+];
+
+const whatWeDo = [
+  {
+    title: "Research & Research Design",
+    desc: "Comprehensive study design, data analysis, and scientific methodology tailored to your genomics research objectives.",
+  },
+  {
+    title: "Molecular Biology & Genomics",
+    desc: "Advanced molecular techniques including gene expression, protein analysis, and cellular genomics for cutting-edge discovery.",
+  },
+  {
+    title: "Next Generation Sequencing",
+    desc: "High-throughput NGS solutions delivering fast, accurate, and cost-effective sequencing for any scale of genomic study.",
+  },
+  {
+    title: "Genetic Testing Services",
+    desc: "Clinically validated genetic testing spanning diagnostics, carrier screening, pharmacogenomics, and hereditary disease profiling.",
+  },
+];
+
+const whyUs = [
+  {
+    title: "Precision at Every Step",
+    desc: "Our workflows are validated to the highest scientific standards, ensuring accurate and reproducible results.",
+  },
+  {
+    title: "End-to-End Expertise",
+    desc: "From study design to sequencing to interpretation — we cover the full genomics pipeline under one roof.",
+  },
+  {
+    title: "Tailored for You",
+    desc: "Whether you're a researcher, clinician, or institution, we craft solutions that fit your exact needs.",
+  },
+  {
+    title: "Global Reach, Local Impact",
+    desc: "Partnering with institutions across 20+ countries to bring genomic insights where they matter most.",
+  },
+];
 
 const AboutSection = () => {
   return (
     <div className="bg-background text-foreground">
 
-      {/* Page Title */}
+      {/* Hero Banner */}
       <section
-        className="relative py-20 text-white text-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${banner})` }} // change path to your image
+        className="relative py-24 text-white text-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${banner})` }}
       >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60"></div>
-
-        {/* Content */}
+        <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 container mx-auto px-4">
-          <span className="text-sm uppercase tracking-wide">About Us</span>
-          <h1 className="text-2xl md:text-3xl font-bold mt-4 text-orange">
-            Global Experts in Drug Testing, CBRNE Detection, Forensic & Healthcare Solutions
+          <span className="inline-block text-xs uppercase tracking-widest text-orange font-semibold mb-3 border border-orange/40 px-3 py-1 rounded-full">
+            About Us
+          </span>
+          <h1 className="text-2xl md:text-4xl font-bold mt-4 leading-tight text-white">
+            Pioneering the Future of <span className="text-orange">Genomic Science</span>
           </h1>
-        </div>
-      </section>
-
-      {/* Who We Are */}
-      <section className="py-16 container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
-        <div className="w-16 h-1 bg-orange mx-auto mb-6"></div>
-
-        <p className="max-w-4xl mx-auto mb-4">
-          Germonizer is a trusted leader in providing comprehensive solutions in{" "}
-          <b>CBRNE risk management, healthcare supplies, forensic investigation, and drug management for narcotics.</b>{" "}
-          With years of experience working alongside government agencies, healthcare institutions, law enforcement
-          agencies, and public safety organizations, we are committed to enhancing safety, efficiency, and resilience.
-        </p>
-
-        <p className="max-w-4xl mx-auto">
-          Our expertise bridges critical sectors, enabling us to deliver cutting-edge strategies, compliance solutions,
-          and operational support that protect lives and safeguard communities.
-        </p>
-      </section>
-
-
-      {/* What We Do */}
-      <section className="py-16 container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">What We Do</h2>
-        <div className="w-16 h-1 bg-orange mx-auto mb-10"></div>
-
-        <div className="grid md:grid-cols-3 gap-8 text-left">
-          <div>
-            <h3 className="font-semibold text-lg mb-3">CBRNE Risk Management</h3>
-            <p>
-              • Threat assessment and mitigation strategies.<br />
-              • Incident response planning.<br />
-              • Decontamination protocols.<br />
-              • Advanced CBRNE technologies.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-3">Healthcare Management</h3>
-            <p>
-              • Cutting-edge healthcare technologies.<br />
-              • Collaboration with healthcare providers.<br />
-              • Continuous innovation in medical systems.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-3">Narcotics Drug Management</h3>
-            <p>
-              • Secure drug storage systems.<br />
-              • Regulatory compliance.<br />
-              • Training for enforcement teams.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-16 bg-gray-50 container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-10">Why Choose Us?</h2>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="font-semibold text-lg mb-2">Expertise Across Sectors</h3>
-            <p>Specialists in CBRNE, healthcare, forensic investigation, and narcotics regulation.</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">Proven Track Record</h3>
-            <p>We’ve partnered with government agencies and organizations delivering real results.</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">Tailored Solutions</h3>
-            <p>Customized strategies designed for each client’s unique needs.</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">Commitment to Excellence</h3>
-            <p>We follow global best practices from consultation to implementation.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-16 container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
-
-        <div className="max-w-3xl mx-auto space-y-4">
-          <p><b>• Olubunmi Ajasa</b> – Founder & CEO</p>
-          <p><b>• Daisy</b> – Healthcare Specialist</p>
-          <p><b>• Daisy Dona</b> – Narcotics Policy Advisor</p>
-
-          <p className="italic mt-4">
-            Our professionals are supported by advisors and consultants bringing diverse expertise.
+          <p className="mt-4 max-w-2xl mx-auto text-white/70 text-sm md:text-base">
+            5P Genomics is a world-class genomics company committed to precision science,
+            innovative research, and transformative genetic solutions.
           </p>
         </div>
       </section>
 
-      {/* Clients */}
-      <section className="py-16 bg-gray-50 container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-6">Our Clients</h2>
+      {/* Stats Bar */}
+      <section className="bg-navy py-10">
+        <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {stats.map((s) => (
+            <div key={s.label}>
+              <p className="text-3xl font-bold text-orange">{s.value}</p>
+              <p className="text-sm text-white/70 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <p>
-          • Government ministries and defense agencies.<br />
-          • Healthcare institutions and regulatory bodies.<br />
-          • Law enforcement organizations.
+      {/* Who We Are */}
+      <section className="py-20 container mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
+        <div className="w-16 h-1 bg-orange mx-auto mb-6" />
+        <p className="max-w-3xl mx-auto mb-4 text-muted-foreground leading-relaxed">
+          5P Genomics is a trusted leader in genomic research and genetic testing services.
+          We partner with research institutions, clinical laboratories, biotech companies,
+          and healthcare providers to deliver <strong className="text-foreground">precision genomic solutions</strong> that
+          accelerate discovery and improve patient outcomes.
+        </p>
+        <p className="max-w-3xl mx-auto text-muted-foreground leading-relaxed">
+          Our team of expert scientists and bioinformaticians brings decades of combined
+          experience across molecular biology, next generation sequencing, and translational
+          genomics — making us the partner of choice for organisations that demand excellence.
         </p>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-6">Testimonials</h2>
 
-        <p className="italic max-w-2xl mx-auto">
-          "Their team helped us enhance our CBRNE readiness with exceptional professionalism."
-        </p>
-        <p className="mt-4 font-semibold">
-          — Pedro Satirjadi, Director, PT Pesat Pharma Indonesia
-        </p>
+      {/* CTA */}
+      <section className="py-16 bg-navy text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            Ready to advance your genomics journey?
+          </h2>
+          <p className="text-white/70 mb-8 max-w-xl mx-auto text-sm">
+            Get in touch with our team to explore how 5P Genomics can support your research or clinical goals.
+          </p>
+          <a
+            href="/contact"
+            className="inline-block bg-orange text-white font-semibold px-8 py-3 rounded-full hover:opacity-90 transition"
+          >
+            Contact Us
+          </a>
+        </div>
       </section>
 
     </div>

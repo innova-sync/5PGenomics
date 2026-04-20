@@ -35,7 +35,7 @@ const Contact = () => {
                   href="tel:+6567473631"
                   className="text-gray-500 text-sm"
                 >
-                  +65 6747 3631
+                  +234 5P GENOMICS
                 </a>
               </div>
 
@@ -44,21 +44,13 @@ const Contact = () => {
                 <div className="text-3xl mb-3">📧</div>
                 <h3 className="font-semibold text-lg">Email Us</h3>
                 <a
-                  href="mailto:info@germonizer.com"
+                  href="mailto:info@5pgenomics.com"
                   className="text-gray-500 text-sm"
                 >
                   info@5pgenomics.com
                 </a>
               </div>
 
-              {/* LOCATION */}
-              <div className="p-6 rounded-xl shadow-md hover:shadow-lg transition">
-                <div className="text-3xl mb-3">📍</div>
-                <h3 className="font-semibold text-lg">Location</h3>
-                <p className="text-gray-500 text-sm">
-                  08-63, Mega@Woodlands, Singapore
-                </p>
-              </div>
 
             </div>
           </div>

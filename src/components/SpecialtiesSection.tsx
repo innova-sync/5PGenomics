@@ -1,12 +1,12 @@
 import { ShieldCheck, Radiation, Pill, Brain, Search, FlaskConical } from "lucide-react";
 
 const specialties = [
-  { icon: ShieldCheck, title: "Defence Technology" },
-  { icon: Radiation, title: "CBRNe Management" },
-  { icon: Pill, title: "Narcotics Management" },
-  { icon: Brain, title: "AI Healthcare" },
-  { icon: Search, title: "AI Investigation" },
-  { icon: FlaskConical, title: "AI Lab Forensic" },
+  { icon: ShieldCheck, title: "DNA/RNA Purificaion" },
+  { icon: Radiation, title: "Marker & Electrophoresis" },
+  { icon: Pill, title: "Automation" },
+  { icon: Brain, title: "Cloning reagent & Plasmid Clean Up" },
+  { icon: Search, title: "Epigenetics" },
+  { icon: FlaskConical, title: "Genomics & Genetic Testing" },
 ];
 
 const SpecialtiesSection = () => {
@@ -14,14 +14,14 @@ const SpecialtiesSection = () => {
     <section className="py-20 bg-gray-light">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Our Specialties</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Applications</h2>
           <h3 className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Enhancing resilience and operational effectiveness across sectors
           </h3>
           <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-sm leading-relaxed">
             We deliver comprehensive solutions that enhance resilience and operational effectiveness
             across diverse sectors. From safeguarding communities to empowering healthcare
-            professionals, Germonizer is at the forefront of innovation for a safer, healthier world.
+            professionals, 5P Genomics is at the forefront of innovation for a safer, healthier world.
           </p>
         </div>
 

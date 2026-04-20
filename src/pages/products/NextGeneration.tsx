@@ -1,74 +1,69 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import banner from "@/assets/banner.jpg";
 
-// ── Swap this for your real backend endpoint later ──────────────
+// ── Swap for real backend endpoint later ────────────────────────
 const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
 
 const categories = [
-  { name: "All Product", value: "all" },
-  { name: "Alcohol Test", value: "cat1" },
-  { name: "Saliva Test", value: "cat2" },
-  { name: "Urine Test", value: "cat3" },
-  { name: "Hair Test", value: "cat4" },
-  { name: "Surface Test", value: "cat5" },
-  { name: "Vape Detector", value: "cat6" },
+  { label: "All Product", value: "all" },
+  { label: "Forensic", value: "cat1" },
+  { label: "Investigation", value: "cat2" },
 ];
 
 const products = [
   {
     id: 1,
-    title: "Alco 6020 Plus Breathalyzer",
-    desc: "Compact breathalyzer for roadside testing.",
-    img: "/assets/alco-quant-6020-plus-breathalyzer.jpg",
+    title: "Forensic Fingerprint Imaging System – ForensiScan",
     category: ["cat1"],
+    img: "/forensic/forensic-fingerprint-imaging.jpg",
+    desc: "Automated photography and enhancement of fingerprints on curved surfaces.",
   },
   {
     id: 2,
-    title: "DrugWipe 5 S",
-    desc: "Detects slight traces of drugs using saliva.",
-    img: "/assets/saliva-drug-test-drugwipe-5-s.jpg",
-    category: ["cat2"],
+    title: "DNA Sample Collection Kits for Forensic Investigation",
+    category: ["cat1"],
+    img: "/forensic/dna-sample-collection.jpg",
+    desc: "Collect DNA samples from biological evidence at crime scenes.",
   },
   {
     id: 3,
-    title: "DrugWipe 6 S",
-    desc: "Advanced saliva drug testing system.",
-    img: "/assets/drugwipe-6s.jpg",
-    category: ["cat2"],
+    title: "Digital Crime Scene Documentation",
+    category: ["cat1"],
+    img: "/forensic/digital-crime-scene.jpg",
+    desc: "Automated panoramic imaging for crime scene documentation.",
   },
   {
     id: 4,
-    title: "Urine Drug Test Cup",
-    desc: "All-in-one multi-drug urine testing solution.",
-    img: "/assets/urine-test-cup.jpg",
-    category: ["cat3"],
+    title: "CYBERGLOBE – Automated 3D Capturing System",
+    category: ["cat1"],
+    img: "/forensic/cyberglobe.jpg",
+    desc: "Advanced 3D imaging system for crime scene digitalisation.",
   },
   {
     id: 5,
-    title: "Hair Drug Test Device",
-    desc: "Forensic toxicology hair testing solution.",
-    img: "/assets/hair-test.jpg",
-    category: ["cat4"],
+    title: "Bullet Hole Testing Kit",
+    category: ["cat1"],
+    img: "/forensic/bullet-hole-kit.jpg",
+    desc: "Portable forensic solution for accurate bullet hole identification.",
   },
   {
     id: 6,
-    title: "Surface Drug Test",
-    desc: "Detect traces of drugs on surfaces.",
-    img: "/assets/surface-test.jpg",
-    category: ["cat5"],
+    title: "Troya Tactical Surveillance Platform",
+    category: ["cat2"],
+    img: "/forensic/troya-surveillance.jpg",
+    desc: "Advanced surveillance system with GPS and camera control.",
   },
   {
     id: 7,
-    title: "Vape Detector",
-    desc: "Detect vaping in restricted environments.",
-    img: "/assets/vape-detector.jpg",
-    category: ["cat6"],
+    title: "InTouch BLE Communication System",
+    category: ["cat2"],
+    img: "/forensic/wireless-communication.jpg",
+    desc: "Secure wireless communication without touching devices.",
   },
 ];
 
-/* ── Qty Controls (inline on product card) ───────────────────── */
+/* ── Inline Qty Control ──────────────────────────────────────── */
 const QtyControl = ({ qty, onIncrease, onDecrease }) => (
   <div className="flex items-center justify-between w-full bg-orange/10 rounded-lg px-2 py-1.5">
     <button
@@ -102,24 +97,34 @@ const CartDrawer = ({ cart, onClose, onUpdate, onRemove, onProceed }) => {
               ({totalQty} {totalQty === 1 ? "item" : "items"})
             </span>
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-700 text-2xl leading-none"
+          >
             &times;
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {cart.length === 0 ? (
-            <p className="text-center text-gray-400 mt-16 text-sm">Your cart is empty.</p>
+            <p className="text-center text-gray-400 mt-16 text-sm">
+              Your cart is empty.
+            </p>
           ) : (
             cart.map((item) => (
-              <div key={item.id} className="flex gap-4 pb-4 border-b border-gray-100 last:border-0">
+              <div
+                key={item.id}
+                className="flex gap-4 pb-4 border-b border-gray-100 last:border-0"
+              >
                 <img
                   src={item.img}
                   alt={item.title}
                   className="w-20 h-20 object-cover rounded-lg flex-shrink-0 bg-gray-100"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-navy leading-snug mb-1">{item.title}</p>
+                  <p className="text-sm font-semibold text-navy leading-snug mb-1">
+                    {item.title}
+                  </p>
                   <p className="text-xs text-gray-500 mb-2">{item.desc}</p>
                   <div className="flex items-center gap-2">
                     <button
@@ -128,7 +133,9 @@ const CartDrawer = ({ cart, onClose, onUpdate, onRemove, onProceed }) => {
                     >
                       −
                     </button>
-                    <span className="text-sm font-semibold w-5 text-center">{item.qty}</span>
+                    <span className="text-sm font-semibold w-5 text-center">
+                      {item.qty}
+                    </span>
                     <button
                       onClick={() => onUpdate(item.id, item.qty + 1)}
                       className="w-7 h-7 rounded-full bg-gray-100 hover:bg-orange hover:text-white flex items-center justify-center text-base font-bold transition"
@@ -151,7 +158,8 @@ const CartDrawer = ({ cart, onClose, onUpdate, onRemove, onProceed }) => {
         {cart.length > 0 && (
           <div className="border-t border-gray-200 px-6 py-5">
             <p className="text-xs text-gray-500 mb-4 leading-relaxed">
-              No payment required. Our team will contact you with pricing &amp; availability.
+              No payment required. Our team will contact you with pricing &amp;
+              availability.
             </p>
             <button
               onClick={onProceed}
@@ -199,8 +207,7 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
   const handleSubmit = () => {
     if (!validate()) return;
     setSending(true);
-    // ── Hardcoded for now; replace with real API call / EmailJS / backend later ──
-    // Example: fetch('/api/quote', { method: 'POST', body: JSON.stringify({ form, cart, to: COMPANY_EMAIL }) })
+    // ── Replace with real API / EmailJS / backend call later ──
     console.log("Quote request to:", COMPANY_EMAIL, { form, cart });
     setTimeout(() => {
       setSending(false);
@@ -221,7 +228,8 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
           <div>
             <h2 className="text-lg font-bold text-navy">Request a Quote</h2>
             <p className="text-xs text-gray-500">
-              Fill in your details — our team will reach out with pricing &amp; availability.
+              Fill in your details — our team will reach out with pricing &amp;
+              availability.
             </p>
           </div>
           <button
@@ -247,7 +255,9 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                     className="w-10 h-10 rounded-lg object-cover bg-gray-200 flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-navy truncate">{item.title}</p>
+                    <p className="text-sm font-medium text-navy truncate">
+                      {item.title}
+                    </p>
                     <p className="text-xs text-gray-500">{item.desc}</p>
                   </div>
                   <span className="text-sm font-semibold text-orange flex-shrink-0 bg-orange/10 px-2 py-0.5 rounded-md">
@@ -264,7 +274,6 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
               Your Information
             </h3>
             <div className="space-y-4">
-              {/* Row 1 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
@@ -292,14 +301,13 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                     name="organisation"
                     value={form.organisation}
                     onChange={handle}
-                    placeholder="Company / Hospital / Agency"
+                    placeholder="Company / Agency / Department"
                     autoComplete="organization"
                     className={inputClass("organisation")}
                   />
                 </div>
               </div>
 
-              {/* Row 2 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
@@ -337,7 +345,6 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                 </div>
               </div>
 
-              {/* Row 3 */}
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1">
                   Street Address <span className="text-orange">*</span>
@@ -356,7 +363,6 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                 )}
               </div>
 
-              {/* Row 4 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
@@ -412,8 +418,19 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
               {sending ? (
                 <>
                   <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    />
                   </svg>
                   Sending…
                 </>
@@ -449,7 +466,8 @@ const SuccessModal = ({ onClose }) => (
         product selections and get back to you as soon as possible.
       </p>
       <p className="text-xs text-gray-400 mb-6">
-        Expect a response within <span className="font-semibold text-navy">24–48 hours</span>.
+        Expect a response within{" "}
+        <span className="font-semibold text-navy">24–48 hours</span>.
       </p>
       <button
         onClick={onClose}
@@ -462,17 +480,17 @@ const SuccessModal = ({ onClose }) => (
 );
 
 /* ── Main Page ───────────────────────────────────────────────── */
-const AlcoholManagement = () => {
-  const [active, setActive] = useState("all");
+const NextGeneration = () => {
+  const [filter, setFilter] = useState("all");
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const filteredProducts =
-    active === "all"
+    filter === "all"
       ? products
-      : products.filter((p) => p.category.includes(active));
+      : products.filter((p) => p.category.includes(filter));
 
   const totalItems = cart.reduce((s, i) => s + i.qty, 0);
 
@@ -497,7 +515,8 @@ const AlcoholManagement = () => {
     else setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty } : i)));
   };
 
-  const removeItem = (id) => setCart((prev) => prev.filter((i) => i.id !== id));
+  const removeItem = (id) =>
+    setCart((prev) => prev.filter((i) => i.id !== id));
 
   const handleSuccess = () => {
     setQuoteOpen(false);
@@ -536,90 +555,84 @@ const AlcoholManagement = () => {
       </button>
 
       <div className="pt-20">
-        {/* Hero */}
-        <section
-          className="relative py-28 md:py-40 text-white text-center bg-cover bg-center"
-          style={{ backgroundImage: `url(${banner})` }}
-        >
-          <div className="absolute inset-0 bg-black/70" />
-          <div className="relative z-10 container mx-auto px-4">
-            <span className="uppercase tracking-widest text-sm md:text-base">
-              Products
-            </span>
-            <h1 className="mt-4 font-bold leading-tight text-xl sm:text-2xl md:text-4xl lg:text-5xl text-orange">
-              Reliable Drug Alcohol Test Kits — Saliva, Urine, Surface &amp;
-              Breathalyzers
+        {/* HERO */}
+        <section className="bg-[url('/images/bg.jpg')] bg-cover bg-center py-20 text-white relative">
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="relative container mx-auto px-4 text-center">
+            <span className="uppercase tracking-widest">Products</span>
+            <h1 className="text-2xl md:text-4xl font-bold mt-4">
+              Forensic Investigation and Management Products
             </h1>
           </div>
         </section>
 
-        {/* Section Title */}
-        <section className="py-16 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-            Products
-          </h2>
-          <div className="w-16 h-1 bg-orange mx-auto mt-4" />
-        </section>
+        {/* PRODUCTS */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            {/* TITLE */}
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold">Products</h2>
+              <div className="w-20 h-1 bg-orange mx-auto mt-4" />
+            </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 px-4 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setActive(cat.value)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                active === cat.value
-                  ? "bg-orange text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Products Grid */}
-        <section className="pb-24 container mx-auto px-4">
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filteredProducts.map((product) => {
-              const qty = getQty(product.id);
-              return (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
+            {/* FILTER */}
+            <div className="flex justify-center gap-3 mb-10 flex-wrap">
+              {categories.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setFilter(cat.value)}
+                  className={`px-4 py-2 rounded-md border text-sm font-medium transition ${
+                    filter === cat.value
+                      ? "bg-orange text-white border-orange"
+                      : "bg-white border-gray-300 hover:border-orange"
+                  }`}
                 >
-                  <img
-                    src={product.img}
-                    alt={product.title}
-                    className="w-full h-48 object-cover bg-gray-100"
-                  />
-                  <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-semibold text-sm sm:text-base text-navy mb-1">
-                      {product.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-4 flex-1">
-                      {product.desc}
-                    </p>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
 
-                    {/* Show qty controls if in cart, else show Add to Cart */}
-                    {qty > 0 ? (
-                      <QtyControl
-                        qty={qty}
-                        onIncrease={() => addToCart(product)}
-                        onDecrease={() => updateQty(product.id, qty - 1)}
-                      />
-                    ) : (
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="w-full py-2.5 rounded-lg text-sm font-semibold bg-orange text-white hover:opacity-90 transition"
-                      >
-                        Add to Cart
-                      </button>
-                    )}
+            {/* GRID */}
+            <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
+              {filteredProducts.map((product) => {
+                const qty = getQty(product.id);
+                return (
+                  <div
+                    key={product.id}
+                    className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition flex flex-col"
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.title}
+                      className="w-full h-48 object-cover bg-gray-100"
+                    />
+                    <div className="p-4 flex flex-col flex-1">
+                      <h3 className="text-sm font-semibold text-navy mb-1">
+                        {product.title}
+                      </h3>
+                      <p className="text-xs text-gray-500 mt-1 mb-4 flex-1">
+                        {product.desc}
+                      </p>
+
+                      {qty > 0 ? (
+                        <QtyControl
+                          qty={qty}
+                          onIncrease={() => addToCart(product)}
+                          onDecrease={() => updateQty(product.id, qty - 1)}
+                        />
+                      ) : (
+                        <button
+                          onClick={() => addToCart(product)}
+                          className="w-full py-2.5 rounded-lg text-sm font-semibold bg-orange text-white hover:opacity-90 transition"
+                        >
+                          Add to Cart
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
       </div>
@@ -655,4 +668,4 @@ const AlcoholManagement = () => {
   );
 };
 
-export default AlcoholManagement;
+export default NextGeneration;

@@ -6,14 +6,17 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
-import Blog from "./pages/Blog.tsx";
-import Contact from "./pages/Contact.tsx";
+import Services from "./pages/Services.tsx";
+import Solution from "./pages/Solution.tsx";
 
 // Product pages
-import AlcoholManagement from "./pages/products/AlcoholManagement.tsx";
-import CBRNe from "./pages/products/CBRNe.tsx";
-import Forensic from "./pages/products/Forensic.tsx";
-import Healthcare from "./pages/products/Healthcare.tsx";
+import ResearchDesign from "./pages/products/ResearchDesign.tsx";
+import MolecularBiology from "./pages/products/MolecularBiology.tsx";
+import MolecularDiagnostic from "./pages/products/MolecularDiagnostic.tsx";
+import NextGeneration from "./pages/products/NextGeneration.tsx";
+import GeneticTesting from "./pages/products/GeneticTesting.tsx";
+import NiptKit from "./pages/products/NiptKit.tsx";
+import MomGuard from "./pages/products/MomGuard.tsx";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -29,14 +32,17 @@ const App = () => (
           {/* Main pages */}
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/solution" element={<Solution />} />
 
           {/* Product pages */}
-          <Route path="/products/alcohol-management" element={<AlcoholManagement />} />
-          <Route path="/products/cbrne" element={<CBRNe />} />
-          <Route path="/products/forensic" element={<Forensic />} />
-          <Route path="/products/healthcare" element={<Healthcare />} />
+          <Route path="/products/researchdesign"     element={<ResearchDesign />} />
+          <Route path="/products/molecularbiology"   element={<MolecularBiology />} />
+          <Route path="/products/moleculardiagnostic" element={<MolecularDiagnostic />} />
+          <Route path="/products/nextgeneration"     element={<NextGeneration />} />
+          <Route path="/products/genetictesting"     element={<GeneticTesting />} />
+          <Route path="/products/momguard"     element={<MomGuard />} />
+          <Route path="/products/niptkit"     element={<NiptKit />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />

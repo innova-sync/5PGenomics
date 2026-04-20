@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import AboutSection from "@/components/AboutSection";
 import Footer from "@/components/Footer";
 
-const About = () => {
+const About5PGenomics = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -14,4 +14,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About5PGenomics;
