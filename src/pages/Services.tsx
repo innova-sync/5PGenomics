@@ -16,7 +16,7 @@ const Contact = () => {
             <span className="uppercase tracking-widest">Contact Us</span>
 
             <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mt-4">
-              Get in Touch with Germonizer - Experts in Drug Testing, CBRNE, Forensic & Healthcare Solutions
+              Get in Touch with 5P Genomics
             </h1>
           </div>
         </section>
