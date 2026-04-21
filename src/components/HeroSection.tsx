@@ -10,7 +10,7 @@ const services = [
   { icon: Shield,    title: "Research & Research Design",    path: "/products/researchdesign"   },
   { icon: Radiation, title: "Molecular Biology & Genomics",  path: "/products/molecularbiology" },
   { icon: Search,    title: "Next Generation Sequencing",    path: "/products/nextgeneration"   },
-  { icon: Hospital,  title: "Genetic Testing Services",      path: "/products/genetictesting"   },
+  { icon: Hospital,  title: "Genetic Testing Services",      path: "/solution"   },
 ];
 
 /* ── reusable scroll-reveal wrapper ── */

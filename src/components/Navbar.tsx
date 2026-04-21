@@ -17,7 +17,7 @@ const productLinks = [
   {
     label: "Mom Guard",
     path: "/products/momguard",
-    desc: "Maternal health genomics solutions",
+    desc: "Maternal health genomics solutions", 
   },
 ];
 
