@@ -22,12 +22,12 @@ const healthcareFeatures = [
     link: "/products/nextgeneration",
     desc: "Next generation sequencing services",
   },
-  // {
-  //   title: "Consumer Products",
-  //   img: "/icons/Icon-04.png",
-  //   link: "/products/genetictesting",
-  //   desc: "Healthcare consumer product solutions",
-  // },
+  {
+    title: "Mom Guard",
+    img: "/icons/icon-04.png",
+    link: "/products/momguard",
+    desc: "Healthcare consumer product solutions",
+  },
 ];
 
 const GeneticTesting = () => {
