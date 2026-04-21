@@ -81,16 +81,6 @@ const Contact = () => {
           </div>
         </section>
 
-        {/* GOOGLE MAP */}
-        <section className="w-full">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3380.9312330691573!2d103.8074779!3d1.4367148!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da100869000001%3A0xc27777114d235fb9!2sGermonizer%20Pte%20Ltd!5e1!3m2!1sen!2sin!4v1730544888098!5m2!1sen!2sin"
-            width="100%"
-            height="450"
-            className="border-0"
-            loading="lazy"
-          ></iframe>
-        </section>
 
       </div>
 

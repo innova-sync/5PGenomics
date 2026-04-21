@@ -1,9 +1,13 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// ── Swap for real backend endpoint later ────────────────────────
-const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
+// ── EmailJS config — replace these 3 values with yours ─────────
+const EMAILJS_SERVICE_ID  = "service_htzzesw";   // e.g. "service_abc123"
+const EMAILJS_TEMPLATE_ID = "template_hwbf5q6";  // e.g. "template_xyz456"
+const EMAILJS_PUBLIC_KEY  = "1S7_5bYekT_21UN4C";   // e.g. "aBcDeFgHiJkLmNoP"
+// ───────────────────────────────────────────────────────────────
 
 const categories = [
   { label: "All Product", value: "all" },
@@ -177,25 +181,19 @@ const CartDrawer = ({ cart, onClose, onUpdate, onRemove, onProceed }) => {
 /* ── Quote Modal ─────────────────────────────────────────────── */
 const QuoteModal = ({ cart, onClose, onSuccess }) => {
   const [form, setForm] = useState({
-    fullName: "",
-    organisation: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    country: "",
+    fullName: "", organisation: "", email: "",
+    phone: "", address: "", city: "", country: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors]   = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
-  const handle = (e) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const handle = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const validate = () => {
-    const e = {};
+    const e: Record<string, string> = {};
     if (!form.fullName.trim()) e.fullName = "Required";
-    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email))
-      e.email = "Valid email required";
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
     if (!form.phone.trim()) e.phone = "Required";
     if (!form.address.trim()) e.address = "Required";
     if (!form.city.trim()) e.city = "Required";
@@ -204,18 +202,47 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
     setSending(true);
-    // ── Replace with real API / EmailJS / backend call later ──
-    console.log("Quote request to:", COMPANY_EMAIL, { form, cart });
-    setTimeout(() => {
+    setSendError("");
+
+    // Format product list for the email
+    const productList = cart
+      .map((item) => `• ${item.title} — Qty: ${item.qty}`)
+      .join("\n");
+
+    // These keys MUST match the variable names in your EmailJS template
+    const templateParams = {
+      from_name:    form.fullName,
+      organisation: form.organisation || "N/A",
+      from_email:   form.email,
+      phone:        form.phone,
+      address:      form.address,
+      city:         form.city,
+      country:      form.country,
+      products:     productList,
+      // This sends a reply-to so you can reply directly to the customer
+      reply_to:     form.email,
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
       setSending(false);
       onSuccess();
-    }, 1200);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSending(false);
+      setSendError("Failed to send. Please try again or contact us directly.");
+    }
   };
 
-  const inputClass = (name) =>
+  const inputClass = (name: string) =>
     `w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange/50 focus:border-orange transition ${
       errors[name] ? "border-red-400 bg-red-50" : "border-gray-300 bg-white"
     }`;
@@ -223,41 +250,31 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10 rounded-t-2xl">
           <div>
             <h2 className="text-lg font-bold text-navy">Request a Quote</h2>
             <p className="text-xs text-gray-500">
-              Fill in your details — our team will reach out with pricing &amp;
-              availability.
+              Fill in your details — our team will reach out with pricing &amp; availability.
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-700 text-2xl leading-none"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">
             &times;
           </button>
         </div>
 
         <div className="px-6 py-5 space-y-6">
+
           {/* Product Summary */}
           <div className="bg-gray-50 rounded-xl p-4">
-            <h3 className="text-xs font-bold text-navy mb-3 uppercase tracking-wide">
-              Products Requested
-            </h3>
+            <h3 className="text-xs font-bold text-navy mb-3 uppercase tracking-wide">Products Requested</h3>
             <div className="space-y-3">
               {cart.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-10 h-10 rounded-lg object-cover bg-gray-200 flex-shrink-0"
-                  />
+                  <img src={item.img} alt={item.title} className="w-10 h-10 rounded-lg object-cover bg-gray-200 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-navy truncate">
-                      {item.title}
-                    </p>
+                    <p className="text-sm font-medium text-navy truncate">{item.title}</p>
                     <p className="text-xs text-gray-500">{item.desc}</p>
                   </div>
                   <span className="text-sm font-semibold text-orange flex-shrink-0 bg-orange/10 px-2 py-0.5 rounded-md">
@@ -268,43 +285,24 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
             </div>
           </div>
 
-          {/* User Info Form */}
+          {/* Form */}
           <div>
-            <h3 className="text-xs font-bold text-navy mb-4 uppercase tracking-wide">
-              Your Information
-            </h3>
+            <h3 className="text-xs font-bold text-navy mb-4 uppercase tracking-wide">Your Information</h3>
             <div className="space-y-4">
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
                     Full Name <span className="text-orange">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={form.fullName}
-                    onChange={handle}
-                    placeholder="John Doe"
-                    autoComplete="name"
-                    className={inputClass("fullName")}
-                  />
-                  {errors.fullName && (
-                    <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>
-                  )}
+                  <input type="text" name="fullName" value={form.fullName} onChange={handle}
+                    placeholder="John Doe" autoComplete="name" className={inputClass("fullName")} />
+                  {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">
-                    Organisation
-                  </label>
-                  <input
-                    type="text"
-                    name="organisation"
-                    value={form.organisation}
-                    onChange={handle}
-                    placeholder="Company / Agency / Department"
-                    autoComplete="organization"
-                    className={inputClass("organisation")}
-                  />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">Organisation</label>
+                  <input type="text" name="organisation" value={form.organisation} onChange={handle}
+                    placeholder="Company / Hospital / Agency" autoComplete="organization" className={inputClass("organisation")} />
                 </div>
               </div>
 
@@ -313,35 +311,17 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
                     Email Address <span className="text-orange">*</span>
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handle}
-                    placeholder="john@example.com"
-                    autoComplete="email"
-                    className={inputClass("email")}
-                  />
-                  {errors.email && (
-                    <p className="text-xs text-red-500 mt-1">{errors.email}</p>
-                  )}
+                  <input type="email" name="email" value={form.email} onChange={handle}
+                    placeholder="john@example.com" autoComplete="email" className={inputClass("email")} />
+                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
                     Phone Number <span className="text-orange">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handle}
-                    placeholder="+234 800 000 0000"
-                    autoComplete="tel"
-                    className={inputClass("phone")}
-                  />
-                  {errors.phone && (
-                    <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
-                  )}
+                  <input type="tel" name="phone" value={form.phone} onChange={handle}
+                    placeholder="+234 800 000 0000" autoComplete="tel" className={inputClass("phone")} />
+                  {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
                 </div>
               </div>
 
@@ -349,18 +329,9 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                 <label className="block text-xs font-semibold text-gray-600 mb-1">
                   Street Address <span className="text-orange">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="address"
-                  value={form.address}
-                  onChange={handle}
-                  placeholder="123 Main Street"
-                  autoComplete="street-address"
-                  className={inputClass("address")}
-                />
-                {errors.address && (
-                  <p className="text-xs text-red-500 mt-1">{errors.address}</p>
-                )}
+                <input type="text" name="address" value={form.address} onChange={handle}
+                  placeholder="123 Main Street" autoComplete="street-address" className={inputClass("address")} />
+                {errors.address && <p className="text-xs text-red-500 mt-1">{errors.address}</p>}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -368,39 +339,28 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
                     City <span className="text-orange">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={form.city}
-                    onChange={handle}
-                    placeholder="Lagos"
-                    autoComplete="address-level2"
-                    className={inputClass("city")}
-                  />
-                  {errors.city && (
-                    <p className="text-xs text-red-500 mt-1">{errors.city}</p>
-                  )}
+                  <input type="text" name="city" value={form.city} onChange={handle}
+                    placeholder="Lagos" autoComplete="address-level2" className={inputClass("city")} />
+                  {errors.city && <p className="text-xs text-red-500 mt-1">{errors.city}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">
                     Country <span className="text-orange">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="country"
-                    value={form.country}
-                    onChange={handle}
-                    placeholder="Nigeria"
-                    autoComplete="country-name"
-                    className={inputClass("country")}
-                  />
-                  {errors.country && (
-                    <p className="text-xs text-red-500 mt-1">{errors.country}</p>
-                  )}
+                  <input type="text" name="country" value={form.country} onChange={handle}
+                    placeholder="Nigeria" autoComplete="country-name" className={inputClass("country")} />
+                  {errors.country && <p className="text-xs text-red-500 mt-1">{errors.country}</p>}
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Send error message */}
+          {sendError && (
+            <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3">
+              {sendError}
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex gap-3 pb-2">
@@ -418,27 +378,15 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
               {sending ? (
                 <>
                   <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8z"
-                    />
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
                   Sending…
                 </>
-              ) : (
-                "Send Quote Request →"
-              )}
+              ) : "Send Quote Request →"}
             </button>
           </div>
+
         </div>
       </div>
     </div>

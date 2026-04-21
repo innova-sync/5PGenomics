@@ -2,11 +2,19 @@
 // Route: /products/molecularbiology
 
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import banner from "@/assets/banner.jpg";
 
-const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
+// const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
+
+// ── EmailJS config — replace these 3 values with yours ─────────
+const EMAILJS_SERVICE_ID  = "service_htzzesw";   // e.g. "service_abc123"
+const EMAILJS_TEMPLATE_ID = "template_hwbf5q6";  // e.g. "template_xyz456"
+const EMAILJS_PUBLIC_KEY  = "1S7_5bYekT_21UN4C";   // e.g. "aBcDeFgHiJkLmNoP"
+// ───────────────────────────────────────────────────────────────
+
 
 const categories = [
   { label: "All Product",          value: "all"  },
@@ -141,8 +149,9 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     fullName: "", organisation: "", email: "",
     phone: "", address: "", city: "", country: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors]   = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
   const handle = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -158,11 +167,44 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
     setSending(true);
-    console.log("Quote request to:", COMPANY_EMAIL, { form, cart });
-    setTimeout(() => { setSending(false); onSuccess(); }, 1200);
+    setSendError("");
+
+    // Format product list for the email
+    const productList = cart
+      .map((item) => `• ${item.title} — Qty: ${item.qty}`)
+      .join("\n");
+
+    // These keys MUST match the variable names in your EmailJS template
+    const templateParams = {
+      from_name:    form.fullName,
+      organisation: form.organisation || "N/A",
+      from_email:   form.email,
+      phone:        form.phone,
+      address:      form.address,
+      city:         form.city,
+      country:      form.country,
+      products:     productList,
+      // This sends a reply-to so you can reply directly to the customer
+      reply_to:     form.email,
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+      setSending(false);
+      onSuccess();
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSending(false);
+      setSendError("Failed to send. Please try again or contact us directly.");
+    }
   };
 
   const inputClass = (name: string) =>
@@ -173,15 +215,22 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+
+        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 sticky top-0 bg-white z-10 rounded-t-2xl">
           <div>
             <h2 className="text-lg font-bold text-navy">Request a Quote</h2>
-            <p className="text-xs text-gray-500">Fill in your details — our team will reach out with pricing &amp; availability.</p>
+            <p className="text-xs text-gray-500">
+              Fill in your details — our team will reach out with pricing &amp; availability.
+            </p>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">
+            &times;
+          </button>
         </div>
 
         <div className="px-6 py-5 space-y-6">
+
           {/* Product Summary */}
           <div className="bg-gray-50 rounded-xl p-4">
             <h3 className="text-xs font-bold text-navy mb-3 uppercase tracking-wide">Products Requested</h3>
@@ -205,54 +254,85 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
           <div>
             <h3 className="text-xs font-bold text-navy mb-4 uppercase tracking-wide">Your Information</h3>
             <div className="space-y-4">
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">Full Name <span className="text-orange">*</span></label>
-                  <input type="text" name="fullName" value={form.fullName} onChange={handle} placeholder="John Doe" autoComplete="name" className={inputClass("fullName")} />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    Full Name <span className="text-orange">*</span>
+                  </label>
+                  <input type="text" name="fullName" value={form.fullName} onChange={handle}
+                    placeholder="John Doe" autoComplete="name" className={inputClass("fullName")} />
                   {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Organisation</label>
-                  <input type="text" name="organisation" value={form.organisation} onChange={handle} placeholder="Hospital / Laboratory / Clinic" autoComplete="organization" className={inputClass("organisation")} />
+                  <input type="text" name="organisation" value={form.organisation} onChange={handle}
+                    placeholder="Company / Hospital / Agency" autoComplete="organization" className={inputClass("organisation")} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">Email Address <span className="text-orange">*</span></label>
-                  <input type="email" name="email" value={form.email} onChange={handle} placeholder="john@example.com" autoComplete="email" className={inputClass("email")} />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    Email Address <span className="text-orange">*</span>
+                  </label>
+                  <input type="email" name="email" value={form.email} onChange={handle}
+                    placeholder="john@example.com" autoComplete="email" className={inputClass("email")} />
                   {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">Phone Number <span className="text-orange">*</span></label>
-                  <input type="tel" name="phone" value={form.phone} onChange={handle} placeholder="+234 800 000 0000" autoComplete="tel" className={inputClass("phone")} />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    Phone Number <span className="text-orange">*</span>
+                  </label>
+                  <input type="tel" name="phone" value={form.phone} onChange={handle}
+                    placeholder="+234 800 000 0000" autoComplete="tel" className={inputClass("phone")} />
                   {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Street Address <span className="text-orange">*</span></label>
-                <input type="text" name="address" value={form.address} onChange={handle} placeholder="123 Main Street" autoComplete="street-address" className={inputClass("address")} />
+                <label className="block text-xs font-semibold text-gray-600 mb-1">
+                  Street Address <span className="text-orange">*</span>
+                </label>
+                <input type="text" name="address" value={form.address} onChange={handle}
+                  placeholder="123 Main Street" autoComplete="street-address" className={inputClass("address")} />
                 {errors.address && <p className="text-xs text-red-500 mt-1">{errors.address}</p>}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">City <span className="text-orange">*</span></label>
-                  <input type="text" name="city" value={form.city} onChange={handle} placeholder="Lagos" autoComplete="address-level2" className={inputClass("city")} />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    City <span className="text-orange">*</span>
+                  </label>
+                  <input type="text" name="city" value={form.city} onChange={handle}
+                    placeholder="Lagos" autoComplete="address-level2" className={inputClass("city")} />
                   {errors.city && <p className="text-xs text-red-500 mt-1">{errors.city}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">Country <span className="text-orange">*</span></label>
-                  <input type="text" name="country" value={form.country} onChange={handle} placeholder="Nigeria" autoComplete="country-name" className={inputClass("country")} />
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    Country <span className="text-orange">*</span>
+                  </label>
+                  <input type="text" name="country" value={form.country} onChange={handle}
+                    placeholder="Nigeria" autoComplete="country-name" className={inputClass("country")} />
                   {errors.country && <p className="text-xs text-red-500 mt-1">{errors.country}</p>}
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Send error message */}
+          {sendError && (
+            <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3">
+              {sendError}
+            </div>
+          )}
+
+          {/* Actions */}
           <div className="flex gap-3 pb-2">
-            <button onClick={onClose} className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition text-sm">
+            <button
+              onClick={onClose}
+              className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition text-sm"
+            >
               ← Back to Cart
             </button>
             <button
@@ -271,6 +351,7 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
               ) : "Send Quote Request →"}
             </button>
           </div>
+
         </div>
       </div>
     </div>

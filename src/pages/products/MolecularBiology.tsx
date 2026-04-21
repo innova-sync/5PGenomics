@@ -1,9 +1,13 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// ── Swap for real backend endpoint later ────────────────────────
-const COMPANY_EMAIL = "digitalinsightworld@gmail.com";
+// ── EmailJS config — replace these 3 values with yours ─────────
+const EMAILJS_SERVICE_ID  = "service_htzzesw";   // e.g. "service_abc123"
+const EMAILJS_TEMPLATE_ID = "template_hwbf5q6";  // e.g. "template_xyz456"
+const EMAILJS_PUBLIC_KEY  = "1S7_5bYekT_21UN4C";   // e.g. "aBcDeFgHiJkLmNoP"
+// ───────────────────────────────────────────────────────────────
 
 const categories = [
   { label: "All Product", value: "all" },
@@ -226,15 +230,15 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
   });
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
   const handle = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const validate = () => {
-    const e = {};
+ const validate = () => {
+    const e: Record<string, string> = {};
     if (!form.fullName.trim()) e.fullName = "Required";
-    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email))
-      e.email = "Valid email required";
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
     if (!form.phone.trim()) e.phone = "Required";
     if (!form.address.trim()) e.address = "Required";
     if (!form.city.trim()) e.city = "Required";
@@ -243,15 +247,44 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
     setSending(true);
-    // ── Replace with real API / EmailJS / backend call later ──
-    console.log("Quote request to:", COMPANY_EMAIL, { form, cart });
-    setTimeout(() => {
+    setSendError("");
+
+    // Format product list for the email
+    const productList = cart
+      .map((item) => `• ${item.title} — Qty: ${item.qty}`)
+      .join("\n");
+
+    // These keys MUST match the variable names in your EmailJS template
+    const templateParams = {
+      from_name:    form.fullName,
+      organisation: form.organisation || "N/A",
+      from_email:   form.email,
+      phone:        form.phone,
+      address:      form.address,
+      city:         form.city,
+      country:      form.country,
+      products:     productList,
+      // This sends a reply-to so you can reply directly to the customer
+      reply_to:     form.email,
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
       setSending(false);
       onSuccess();
-    }, 1200);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSending(false);
+      setSendError("Failed to send. Please try again or contact us directly.");
+    }
   };
 
   const inputClass = (name) =>

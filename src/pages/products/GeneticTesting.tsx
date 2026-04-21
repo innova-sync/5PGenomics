@@ -1,107 +1,94 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
-
-const categories = [
-  { label: "All Product", value: "all" },
-  { label: "Forensic", value: "cat1" },
-  { label: "Investigation", value: "cat2" },
-];
-
-const products = [
-  {
-    title: "Forensic Fingerprint Imaging System – ForensiScan",
-    category: ["cat1"],
-    img: "/forensic/forensic-fingerprint-imaging.jpg",
-    desc: "Automated fingerprint enhancement on curved surfaces.",
-  },
-  {
-    title: "DNA Sample Collection Kit",
-    category: ["cat1"],
-    img: "/forensic/dna-sample-collection.jpg",
-    desc: "Collect DNA samples from crime scenes.",
-  },
-];
+import { Link } from "react-router-dom";
+import banner from "@/assets/banner.jpg";
 
 const healthcareFeatures = [
   {
-    title: "Molecular Diagnostic (Lyophilized PCR kits)",
+    title: "Molecular Diagnostic (Lyophilized PCR Kits)",
     img: "/icons/icon-06.png",
-    link: "#",
+    link: "/products/moleculardiagnostic",
+    desc: "Lyophilized PCR kits for reliable disease detection",
   },
   {
     title: "NIPT Kits and Service",
     img: "/icons/icon-05.png",
-    link: "#",
+    link: "/products/niptkit",
+    desc: "Non-invasive prenatal testing solutions",
   },
   {
     title: "NGS",
     img: "/icons/ngs.png",
-    link: "#",
+    link: "/products/nextgeneration",
+    desc: "Next generation sequencing services",
   },
-  {
-    title: "Consumer Products",
-    img: "/icons/icon-04.png",
-    link: "#",
-  },
+  // {
+  //   title: "Consumer Products",
+  //   img: "/icons/Icon-04.png",
+  //   link: "/products/genetictesting",
+  //   desc: "Healthcare consumer product solutions",
+  // },
 ];
 
-const ForensicProducts = () => {
-  const [filter, setFilter] = useState("all");
-
-  const filteredProducts =
-    filter === "all"
-      ? products
-      : products.filter((p) => p.category.includes(filter));
-
+const GeneticTesting = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
 
       <div className="pt-20">
 
-        {/* HERO */}
-        <section className="bg-[url('/images/bg.jpg')] bg-cover bg-center py-20 text-white relative">
-          <div className="absolute inset-0 bg-black/60"></div>
-
-          <div className="relative container mx-auto px-4 text-center">
-            <span className="uppercase tracking-widest">Products</span>
-            <h1 className="text-2xl md:text-4xl font-bold mt-4">
-              Healthcare Product Solutions for Clinical & Diagnostic Excellence
+        {/* Hero Banner */}
+        <section
+          className="relative py-20 text-white text-center bg-cover bg-center"
+          style={{ backgroundImage: `url(${banner})` }}
+        >
+          <div className="absolute inset-0 bg-black/65" />
+          <div className="relative z-10 container mx-auto px-4">
+            <span className="inline-block text-xs uppercase tracking-widest text-orange font-semibold mb-3 border border-orange/40 px-3 py-1 rounded-full">
+              Products
+            </span>
+            <h1 className="text-2xl md:text-4xl font-bold mt-3 text-white">
+              Healthcare Product Solutions for Clinical &amp; Diagnostic Excellence
             </h1>
           </div>
         </section>
 
-        {/* FEATURE CARDS (converted properly) */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        {/* Section Title */}
+        <section className="pt-16 pb-4 text-center">
+          <h2 className="text-3xl font-bold text-navy">Products</h2>
+          <div className="w-16 h-1 bg-orange mx-auto mt-4" />
+        </section>
 
-            <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
+        {/* Feature Cards */}
+        <section className="py-12 pb-24">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {healthcareFeatures.map((item, index) => (
-                <a key={index} href={item.link}>
-                  <div className="p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center cursor-pointer">
-                    
-                    <div className="flex justify-center mb-4">
+                <Link key={index} to={item.link}>
+                  <div className="group p-8 rounded-2xl border border-border bg-card shadow-sm hover:shadow-xl hover:border-orange/40 hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer h-full flex flex-col items-center justify-center">
+
+                    <div className="flex justify-center mb-5">
                       <img
                         src={item.img}
                         alt={item.title}
-                        className="h-16"
+                        className="h-16 w-16 object-contain group-hover:scale-110 transition-transform duration-300"
                       />
                     </div>
 
-                    <h3 className="text-sm font-semibold">
+                    <h3 className="text-sm font-semibold text-navy leading-snug group-hover:text-orange transition-colors">
                       {item.title}
                     </h3>
 
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed hidden sm:block">
+                      {item.desc}
+                    </p>
+
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
-
           </div>
         </section>
-
-    
 
       </div>
 
@@ -110,4 +97,4 @@ const ForensicProducts = () => {
   );
 };
 
-export default ForensicProducts;
+export default GeneticTesting;
