@@ -66,7 +66,7 @@ const Contact = () => {
 
             <div className="w-16 h-1 bg-orange mx-auto mb-8"></div>
 
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <iframe
                 src="https://docs.google.com/forms/d/e/1FAIpQLSerIuLKgvRE4iSSZvMDYvb-uYRjpowockWBjzkIg1svGZJPRg/viewform?embedded=true"
                 width="100%"
@@ -76,7 +76,7 @@ const Contact = () => {
               >
                 Loading…
               </iframe>
-            </div>
+            </div> */}
 
           </div>
         </section>
