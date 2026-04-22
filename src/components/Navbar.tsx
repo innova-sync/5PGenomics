@@ -171,7 +171,7 @@ const Navbar = () => {
                             location.pathname === child.path ? "bg-accent" : ""
                           }`}
                         >
-                          <p className={`text-sm font-medium ${
+                          <p className={`text-sm font-medium  ${
                             location.pathname === child.path ? "text-orange" : ""
                           }`}>
                             {child.label}
