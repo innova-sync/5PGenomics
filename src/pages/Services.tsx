@@ -38,7 +38,7 @@ const Contact = () => {
                   href="tel:+2340000000000"
                   className="text-gray-500 text-sm block mt-2 hover:text-black"
                 >
-                  +234 000 000 0000
+                  +234 5P GENOMICS
                 </a>
               </div>
 
