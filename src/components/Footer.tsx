@@ -56,7 +56,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-xs opacity-60">
-          © {new Date().getFullYear()} 5P Genomics Ltd. All rights reserved.
+          © {new Date().getFullYear()} 5P Genomics Ltd. All rights reserved. Designed by InnovaSync Limited.
         </div>
       </div>
     </footer>
