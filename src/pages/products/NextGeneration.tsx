@@ -1,12 +1,12 @@
+
+
+
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// ── EmailJS config — replace these 3 values with yours ─────────
-const EMAILJS_SERVICE_ID  = "service_htzzesw";   // e.g. "service_abc123"
-const EMAILJS_TEMPLATE_ID = "template_hwbf5q6";  // e.g. "template_xyz456"
-const EMAILJS_PUBLIC_KEY  = "1S7_5bYekT_21UN4C";   // e.g. "aBcDeFgHiJkLmNoP"
+// ── Admin email — all quote requests go here ────────────────────
+const ADMIN_EMAIL = "info@5pgenomics.com";
 // ───────────────────────────────────────────────────────────────
 
 const categories = [
@@ -184,9 +184,7 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     fullName: "", organisation: "", email: "",
     phone: "", address: "", city: "", country: "",
   });
-  const [errors, setErrors]   = useState<Record<string, string>>({});
-  const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handle = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -202,44 +200,51 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!validate()) return;
-    setSending(true);
-    setSendError("");
 
-    // Format product list for the email
-    const productList = cart
-      .map((item) => `• ${item.title} — Qty: ${item.qty}`)
+    const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+
+    const productLines = cart
+      .map((item) => `  • ${item.title} — Qty: ${item.qty}`)
       .join("\n");
 
-    // These keys MUST match the variable names in your EmailJS template
-    const templateParams = {
-      from_name:    form.fullName,
-      organisation: form.organisation || "N/A",
-      from_email:   form.email,
-      phone:        form.phone,
-      address:      form.address,
-      city:         form.city,
-      country:      form.country,
-      products:     productList,
-      // This sends a reply-to so you can reply directly to the customer
-      reply_to:     form.email,
-    };
+    const submittedAt = new Date().toLocaleString("en-NG", {
+      dateStyle: "full",
+      timeStyle: "short",
+      timeZone: "Africa/Lagos",
+    });
 
-    try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
-      setSending(false);
-      onSuccess();
-    } catch (err) {
-      console.error("EmailJS error:", err);
-      setSending(false);
-      setSendError("Failed to send. Please try again or contact us directly.");
-    }
+    const subject = `New Quote Request from ${form.fullName}`;
+
+    const body = [
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "        NEW QUOTE REQUEST",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "CUSTOMER DETAILS",
+      "─────────────────────────────────",
+      `Full Name    : ${form.fullName}`,
+      `Organisation : ${form.organisation || "N/A"}`,
+      `Email        : ${form.email}`,
+      `Phone        : ${form.phone}`,
+      `Address      : ${form.address}`,
+      `City         : ${form.city}`,
+      `Country      : ${form.country}`,
+      "",
+      `PRODUCTS REQUESTED (${totalItems} item${totalItems !== 1 ? "s" : ""})`,
+      "─────────────────────────────────",
+      productLines,
+      "",
+      "─────────────────────────────────",
+      `Submitted    : ${submittedAt}`,
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    ].join("\n");
+
+    // Open the user's email client pre-filled and addressed to admin
+    window.location.href = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    onSuccess();
   };
 
   const inputClass = (name: string) =>
@@ -284,6 +289,23 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
               ))}
             </div>
           </div>
+
+          {/* Info banner */}
+          {/* <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
+            <svg
+              className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+            </svg>
+            <p className="text-xs text-blue-600 leading-relaxed">
+              Clicking <strong>"Send Quote Request"</strong> will open your email app with everything
+              pre-filled and addressed to our team. Just press <strong>Send</strong> in your email app to submit.
+            </p>
+          </div> */}
 
           {/* Form */}
           <div>
@@ -355,13 +377,6 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
             </div>
           </div>
 
-          {/* Send error message */}
-          {sendError && (
-            <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3">
-              {sendError}
-            </div>
-          )}
-
           {/* Actions */}
           <div className="flex gap-3 pb-2">
             <button
@@ -372,18 +387,12 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
             </button>
             <button
               onClick={handleSubmit}
-              disabled={sending}
-              className="flex-1 bg-orange text-white py-3 rounded-xl font-semibold hover:opacity-90 transition text-sm disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 bg-orange text-white py-3 rounded-xl font-semibold hover:opacity-90 transition text-sm flex items-center justify-center gap-2"
             >
-              {sending ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  Sending…
-                </>
-              ) : "Send Quote Request →"}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Send Quote Request
             </button>
           </div>
 
@@ -398,24 +407,18 @@ const SuccessModal = ({ onClose }) => (
   <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm text-center px-8 py-10">
       <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-        <svg
-          className="w-10 h-10 text-green-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
+        <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h2 className="text-2xl font-bold text-navy mb-2">Quote Request Sent!</h2>
+      <h2 className="text-2xl font-bold text-navy mb-2">Almost There!</h2>
       <p className="text-gray-500 text-sm mb-2 leading-relaxed">
-        Your request has been successfully submitted. Our team will review your
-        product selections and get back to you as soon as possible.
+        Your email app has opened with your quote pre-filled and addressed to our
+        team. Just press <span className="font-semibold text-navy">Send</span> in
+        your email app to complete it.
       </p>
       <p className="text-xs text-gray-400 mb-6">
-        Expect a response within{" "}
-        <span className="font-semibold text-navy">24–48 hours</span>.
+        Expect a response within <span className="font-semibold text-navy">24–48 hours</span> once sent.
       </p>
       <button
         onClick={onClose}
@@ -451,9 +454,7 @@ const NextGeneration = () => {
     setCart((prev) => {
       const found = prev.find((i) => i.id === product.id);
       return found
-        ? prev.map((i) =>
-            i.id === product.id ? { ...i, qty: i.qty + 1 } : i
-          )
+        ? prev.map((i) => i.id === product.id ? { ...i, qty: i.qty + 1 } : i)
         : [...prev, { ...product, qty: 1 }];
     });
   };
@@ -482,13 +483,7 @@ const NextGeneration = () => {
         className="fixed bottom-6 right-6 z-30 bg-orange text-white rounded-full w-16 h-16 flex items-center justify-center shadow-xl hover:opacity-90 transition"
         aria-label="Open quote cart"
       >
-        <svg
-          className="w-7 h-7"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
