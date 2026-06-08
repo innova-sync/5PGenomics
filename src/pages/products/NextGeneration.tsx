@@ -290,22 +290,6 @@ const QuoteModal = ({ cart, onClose, onSuccess }) => {
             </div>
           </div>
 
-          {/* Info banner */}
-          {/* <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
-            <svg
-              className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
-            </svg>
-            <p className="text-xs text-blue-600 leading-relaxed">
-              Clicking <strong>"Send Quote Request"</strong> will open your email app with everything
-              pre-filled and addressed to our team. Just press <strong>Send</strong> in your email app to submit.
-            </p>
-          </div> */}
 
           {/* Form */}
           <div>
