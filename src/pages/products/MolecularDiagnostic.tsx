@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import banner from "@/assets/banner.jpg";
 
 // ── Admin email — all quote requests go here ────────────────────
-const ADMIN_EMAIL = "info@5pgenomics.com";
+const ADMIN_EMAIL = "Hello@5pgenomics.com";
 // ───────────────────────────────────────────────────────────────
 
 const categories = [

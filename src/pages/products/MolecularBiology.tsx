@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 // ── Admin email — all quote requests go here ────────────────────
-const ADMIN_EMAIL = "info@5pgenomics.com";
+const ADMIN_EMAIL = "Hello@5pgenomics.com";
 // ───────────────────────────────────────────────────────────────
 
 const categories = [
